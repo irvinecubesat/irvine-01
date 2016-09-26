@@ -24,9 +24,6 @@ rm -rf .stamp* dev-tag.sh .git
 chmod 755 .
 chmod 755 /root
 
-#
-# Issue is now built by irvine-01-sw/version
-#
-#echo Built: `date` >> etc/issue
-#echo >> etc/issue
-#cp etc/issue usr/local/etc/issue
+echo Built: `date` >> etc/issue
+echo >> etc/issue
+cp etc/issue usr/local/etc/issue
