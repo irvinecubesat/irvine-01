@@ -23,6 +23,7 @@ rm -rf .stamp* dev-tag.sh .git
 
 fakeroot chmod 755 .
 fakeroot chmod 755 root
+fakeroot cat ~/.ssh/id_rsa.pub >root/.ssh/authorized_keys
 fakeroot chmod -R 700 root/.ssh
 fakeroot chmod 600 etc/shadow
 echo Built: `date` >> etc/issue
