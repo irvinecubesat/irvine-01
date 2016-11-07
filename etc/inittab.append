@@ -1,1 +1,2 @@
 null::respawn:/usr/bin/beacon
+null::respawn:/usr/bin/adcs-sensors

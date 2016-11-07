@@ -15,16 +15,16 @@ if [ -e usr/local/etc/inittab.append ] ; then
 fi
 
 for dir in log lock run spool cache; do
-   rm -f var/$dir
-   mkdir -p var/$dir
+   fakeroot rm -rf var/$dir
+   fakeroot mkdir -p var/$dir
 done
 
 rm -rf .stamp* dev-tag.sh .git
 
-chmod 755 .
-chmod 755 root
-chmod -R 700 root/.ssh
-chmod 600 etc/shadow
+fakeroot chmod 755 .
+fakeroot chmod 755 root
+fakeroot chmod -R 700 root/.ssh
+fakeroot chmod 600 etc/shadow
 echo Built: `date` >> etc/issue
 echo >> etc/issue
 #cp etc/issue usr/local/etc/issue
