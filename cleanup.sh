@@ -28,4 +28,7 @@ fakeroot chmod -R 700 root/.ssh
 fakeroot chmod 600 etc/shadow
 echo Built: `date` >> etc/issue
 echo >> etc/issue
-#cp etc/issue usr/local/etc/issue
+#
+# Ensure usr/local/etc/issue is updated otherwise we get the NAND error message
+#
+cp etc/issue usr/local/etc/issue
