@@ -1,5 +1,6 @@
 #!/bin/sh
 
+FAKEROOT=/opt/toolchain/toolchain-arm-linux/bin/fakeroot
 mv etc/inittab etc/inittab.old
 cat etc/inittab.old | grep -v beacon > etc/inittab
 rm etc/inittab.old
@@ -15,17 +16,17 @@ if [ -e usr/local/etc/inittab.append ] ; then
 fi
 
 for dir in log lock run spool cache; do
-   fakeroot rm -rf var/$dir
-   fakeroot mkdir -p var/$dir
+   $FAKEROOT rm -rf var/$dir
+   $FAKEROOT mkdir -p var/$dir
 done
 
 rm -rf .stamp* dev-tag.sh .git
 
-fakeroot chmod 755 .
-fakeroot chmod 755 root
-fakeroot cat ~/.ssh/id_rsa.pub >root/.ssh/authorized_keys
-fakeroot chmod -R 700 root/.ssh
-fakeroot chmod 600 etc/shadow
+$FAKEROOT chmod 755 .
+$FAKEROOT chmod 755 root
+$FAKEROOT cat ~/.ssh/id_rsa.pub >root/.ssh/authorized_keys
+$FAKEROOT chmod -R 700 root/.ssh
+$FAKEROOT chmod 600 etc/shadow
 echo Built: `date` >> etc/issue
 echo >> etc/issue
 #
