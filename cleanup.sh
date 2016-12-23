@@ -15,10 +15,13 @@ if [ -e usr/local/etc/inittab.append ] ; then
    rm -f usr/local/etc/inittab.append
 fi
 
-for dir in log lock run spool cache; do
-   $FAKEROOT rm -rf var/$dir
-   $FAKEROOT mkdir -p var/$dir
-done
+#
+# Skip removing these directories since this causes problems with crontab
+#
+#for dir in log lock run spool cache; do
+#   $FAKEROOT rm -rf var/$dir
+#   $FAKEROOT mkdir -p var/$dir
+#done
 
 rm -rf .stamp* dev-tag.sh .git
 
