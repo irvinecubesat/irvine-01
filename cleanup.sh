@@ -36,3 +36,10 @@ echo >> etc/issue
 # Ensure usr/local/etc/issue is updated otherwise we get the NAND error message
 #
 cp etc/issue usr/local/etc/issue
+
+(cd usr/local/etc; ln -s ../astrometry/etc/astrometry.cfg .)
+
+#
+# Remove unnecessary include files
+#
+rm -rf usr/local/include
