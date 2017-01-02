@@ -1,2 +1,3 @@
 null::respawn:/usr/bin/beacon
 null::respawn:/usr/bin/adcs-sensors
+null::respawn:/usr/sbin/satcomm
