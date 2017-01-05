@@ -37,6 +37,7 @@ echo >> etc/issue
 #
 cp etc/issue usr/local/etc/issue
 
+(cd usr/local/etc; ln -s ../astrometry/etc/astrometry.cfg .)
 #
 # Remove unnecessary include files
 #
