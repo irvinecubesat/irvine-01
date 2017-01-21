@@ -25,10 +25,10 @@ start() {
       	#/sbin/udhcpc -x 0x3d:$CLIENTID_HEX --interface=eth0
       	#/usr/sbin/ntpd -q -n -d -p ntp.nasa.gov
          echo -n
-      elif [ "$SERIAL" = "0000000000008212" ]; then
+      elif [ "$SERIAL" = "8212" ]; then
 	  # flight board IP address
           ifconfig eth0 192.168.0.100 netmask 255.255.255.0
-      elif [ "$SERIAL" = "0000000000008211" ]; then
+      elif [ "$SERIAL" = "8211" ]; then
 	  # ground board IP address
 	  ifconfig eth0 192.168.0.101 netmask 255.255.255.0
       else
