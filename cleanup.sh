@@ -15,6 +15,11 @@ if [ -e usr/local/etc/inittab.append ] ; then
    rm -f usr/local/etc/inittab.append
 fi
 
+# set up the .profile which defines the PATH and sh prompt
+if [ -e etc/default.profile ]; then
+    $FAKEROOT mv etc/default.profile root/.profile
+fi
+
 #
 # Skip removing these directories since this causes problems with crontab
 #
