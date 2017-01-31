@@ -23,6 +23,7 @@ comm_server 50008/udp
 clksync     50009/udp
 payload     50010/udp
 adcs-sensors        50011/udp
+cmdd        50012/udp
 
 tcpmux		1/tcp				# TCP port service multiplexer
 echo		7/tcp
