@@ -1,0 +1,133 @@
+#!/bin/sh
+#
+# Init script for IRVINE-01 C-Card.
+#
+# - Enable Payload Power
+# - board-irv-01-c-card.ko 
+# - export expander GPIO's
+
+gpioPayloadPower=103
+logFile=/var/log/irv_ccard.initd.log
+ccardMod=/lib/modules/2.6.30.2/kernel/arch/arm/mach-at91/board-irv-01-c-card.ko
+syslogTag="irvccard"
+gpioExport=/sys/class/gpio/export
+minGpio=296
+maxGpio=303
+
+#
+#  Function    gpio
+#  ----------------------
+#  DSA1_RLS_B  296
+#  DSA1_DPLY_B 297
+#  DSA2_RLS_B  298
+#  DSA2_DPLY_B 299
+#  MT01_EN     300 <--- low at initialization
+#  MT02_EN     301 <--- low at initialization
+#  MT03_EN     302 <--- low at initialization
+#  DSA_EN_BAR  303
+
+#
+# Log to file and /var/log/messages via syslog
+#
+log()
+{
+
+    echo $* >>$logFile
+    # also log to /var/log/messages
+    logSeverity="${1:0:2}"
+    priority=6
+    if [ "$logSeverity" = "[E" ]; then
+	priority=3
+    fi
+    logger -p $priority -t $syslogTag $*
+}
+
+setGpio()
+{
+    gpio=$1
+    value=$2
+    /usr/bin/gpiotest $gpio o $value
+    status=$?
+    if [ $status -eq 0 ]; then
+	log "[I] Set GPIO $gpio to $value"
+    else
+	log "[E] Status $status setting $gpio to $value"
+    fi
+}
+
+#
+# Export a gpio to allow user mode access.  These are set up by the kernel
+# module
+#
+exportGpio()
+{
+    if [ -z "$1" ]; then
+	log "[E] No value provided to exportGpio"
+	return 1
+    fi
+
+    echo $1 >$gpioExport
+    status=$?
+    if [ "$status" -eq 0 ]; then
+	log "[I] Exported GPIO $1"
+    else
+	log "[E] Unable to export GPIO $1"
+    fi
+}
+
+loadCcardMod()
+{
+    insmod $ccardMod
+    status=$?
+    if [ $status -eq 0 ]; then
+	log "[I] Successfully loaded $ccardMod"
+    else
+	log "[E] Status $status loading $ccardMod"
+    fi
+}
+
+#
+# Setup GPIOs between minGpio and maxGpio inclusive
+#
+setupGpios()
+{
+    gpio=$minGpio
+    while [ $gpio -le $maxGpio ]; do
+	exportGpio $gpio
+	gpio=$((gpio+1))
+    done
+}
+
+start()
+{
+    setGpio $gpioPayloadPower 1
+    loadCcardMod
+    setupGpios
+}
+
+stop()
+{
+    setGpio $gpioPayloadPower 0
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+  	start
+	;;
+    stop)
+  	stop
+	;;
+    restart|reload)
+  	restart
+	;;
+    *)
+	echo $"Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
