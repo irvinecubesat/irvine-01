@@ -10,4 +10,4 @@ case "$Serial" in
        boardType="flt"
      ;;
 esac
-PS1=`uname -n`'-${boardType-"unknown"}':'$PWD'# ; export PS1
+PS1=`uname -n`'-${boardType-"unknown"}':'$PWD'#' ' ; export PS1

@@ -1,4 +1,4 @@
 null::respawn:/usr/bin/beacon
 null::respawn:/usr/bin/adcs-sensors
 null::respawn:/usr/sbin/satcomm
-null::respawn:/usr/bin/cmdd -D/data/cmds:/usr/local/cmds
+null::respawn:/usr/bin/cmdd -D/data/cmds,/usr/local/cmds
