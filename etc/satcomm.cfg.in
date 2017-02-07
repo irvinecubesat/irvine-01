@@ -45,7 +45,7 @@ VERBOSE=<0, 1>
 #
 # The AES encryption key will be automatically replaced at build time.
 #
-AES128KEY=__AES128_KEY__
+AES128_KEY=__AES128_KEY__
 AES128_IV=__AES128_IV__
 ENFORCE_ENCRYPTION=1
 DEFAULT_L2=CPL2
@@ -63,7 +63,6 @@ MTU=512
 <INTERFACE ax5042>
    DEVICE=/dev/AX5042
    ID=1
-   NAME=UHF
    DEFAULT_TX_QUEUE=2
    DEFAULT_RX_QUEUE=3
    CW_QUEUE=4

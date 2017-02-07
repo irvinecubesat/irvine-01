@@ -8,7 +8,8 @@
 
 gpioPayloadPower=103
 logFile=/var/log/irv_ccard.initd.log
-ccardMod=/lib/modules/2.6.30.2/kernel/arch/arm/mach-at91/board-irv-01-c-card.ko
+ccardMod=board-irv-01-c-card.ko
+i2cMod=pcf857x
 syslogTag="irvccard"
 gpioExport=/sys/class/gpio/export
 minGpio=296
@@ -77,12 +78,19 @@ exportGpio()
 
 loadCcardMod()
 {
-    insmod $ccardMod
+    modprobe $ccardMod
     status=$?
     if [ $status -eq 0 ]; then
 	log "[I] Successfully loaded $ccardMod"
     else
 	log "[E] Status $status loading $ccardMod"
+    fi
+    modprobe $i2cMod
+    status=$?
+    if [ $status -eq 0 ]; then
+	    log "[I] Successfully loaded $i2cMod"
+    else
+	    log "[E] Status $status loading $i2cMod"
     fi
 }
 

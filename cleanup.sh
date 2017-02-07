@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IRVINE_SW_DIR=../irvine-01-sw
+IRVINE_SW_DIR=${IRVINE_SW_DIR-~/projects/irvine-01-sw}
 KEYINFO_FILE=~/.irvine-01.keyInfo
 keyTool=${KEY_TOOL-${IRVINE_SW_DIR}/scripts/opensslKeyTool.sh}
 satcommKey=$IRVINE_SW_DIR/auth/satcomm.enc
@@ -65,7 +65,7 @@ cleanup()
     rm $satcommKeyCfg
 }
 
-trap EXIT cleanup
+trap cleanup EXIT
 
 satcommSetup()
 {
@@ -84,4 +84,7 @@ satcommSetup()
         log "[E] Error running sed.  satcomm keys may not be set up properly"
     fi
 }
+
+satcommSetup
+
 
