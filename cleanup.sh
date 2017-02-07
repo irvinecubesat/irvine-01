@@ -1,5 +1,11 @@
 #!/bin/sh
 
+IRVINE_SW_DIR=../irvine-01-sw
+KEYINFO_FILE=~/.irvine-01.keyInfo
+keyTool=${KEY_TOOL-${IRVINE_SW_DIR}/scripts/opensslKeyTool.sh}
+satcommKey=$IRVINE_SW_DIR/auth/satcomm.enc
+satcommKeyCfg=etc/satcommKey.cfg
+satcommTemplate=etc/satcomm.cfg.in
 FAKEROOT=/opt/toolchain/toolchain-arm-linux/bin/fakeroot
 mv etc/inittab etc/inittab.old
 cat etc/inittab.old | grep -v beacon > etc/inittab
@@ -47,3 +53,35 @@ cp etc/issue usr/local/etc/issue
 # Remove unnecessary include files
 #
 $FAKEROOT rm -rf usr/local/include
+
+log()
+{
+    echo $*
+}
+
+cleanup()
+{
+    rm $satcommTemplate
+    rm $satcommKeyCfg
+}
+
+trap EXIT cleanup
+
+satcommSetup()
+{
+    $keyTool -f $KEYINFO_FILE -d $satcommKey -o $satcommKeyCfg
+    if [ $? -ne 0 ]; then
+        log "[E] Error decoding $satcommKey.  Ensure you have registered your cert with the admin"
+        return 1
+    fi
+
+    . $satcommKeyCfg
+    
+    aes_key=__AES128_KEY__
+    aes_iv=__AES128_IV__
+    sed -e s/$aes_key/$key/g -e s/$aes_iv/$iv/g $satcommTemplate>etc/satcomm.cfg
+    if [ $? -ne 0 ]; then
+        log "[E] Error running sed.  satcomm keys may not be set up properly"
+    fi
+}
+
