@@ -72,7 +72,7 @@ cleanup()
     rm $satcommKeyCfg
 }
 
-trap EXIT cleanup
+trap cleanup EXIT
 
 satcommSetup()
 {
@@ -91,4 +91,7 @@ satcommSetup()
         log "[E] Error running sed.  satcomm keys may not be set up properly"
     fi
 }
+
+satcommSetup
+
 
