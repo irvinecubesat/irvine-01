@@ -1,9 +1,16 @@
 #!/bin/sh
 
-IRVINE_SW_DIR=../irvine-01-sw
+IRVINE_SW_INSTALL_DIR=~/.irvine-01-sw
+
+if [ ! -d "$IRVINE_SW_INSTALL_DIR" ]; then
+    echo "**************************** ERROR ********************************"
+    echo "* Make sure you get the latest irvine-01-sw project and build it. *"
+    echo "*******************************************************************"
+    exit 1
+fi
 KEYINFO_FILE=~/.irvine-01.keyInfo
-keyTool=${KEY_TOOL-${IRVINE_SW_DIR}/scripts/opensslKeyTool.sh}
-satcommKey=$IRVINE_SW_DIR/auth/satcomm.enc
+keyTool=${KEY_TOOL-${IRVINE_SW_INSTALL_DIR}/scripts/opensslKeyTool.sh}
+satcommKey=$IRVINE_SW_INSTALL_DIR/auth/satcomm.enc
 satcommKeyCfg=etc/satcommKey.cfg
 satcommTemplate=etc/satcomm.cfg.in
 FAKEROOT=/opt/toolchain/toolchain-arm-linux/bin/fakeroot
