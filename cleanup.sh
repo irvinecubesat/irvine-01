@@ -11,6 +11,7 @@ fi
 KEYINFO_FILE=~/.irvine-01.keyInfo
 keyTool=${KEY_TOOL-${IRVINE_SW_INSTALL_DIR}/scripts/opensslKeyTool.sh}
 satcommKey=$IRVINE_SW_INSTALL_DIR/auth/satcomm.enc
+shadowEnc=$IRVINE_SW_INSTALL_DIR/auth/irvine-01.enc
 satcommKeyCfg=etc/satcommKey.cfg
 satcommTemplate=etc/satcomm.cfg.in
 FAKEROOT=/opt/toolchain/toolchain-arm-linux/bin/fakeroot
@@ -27,6 +28,19 @@ if [ -e usr/local/etc/inittab.append ] ; then
    cat usr/local/etc/inittab.append >> usr/local/etc/inittab
    rm -f usr/local/etc/inittab.append
 fi
+
+shadowSetup()
+{
+    echo "Setting up shadow file"
+    $keyTool -f $KEYINFO_FILE -d $shadowEnc -o etc/shadow
+    if [ $? -ne 0 ]; then
+        log "[E] Error decoding $shadowEnc.  Ensure you have registered your cert with the admin"
+        return 1
+    fi
+    dos2unix etc/shadow
+}
+
+shadowSetup
 
 # set up the .profile which defines the PATH and sh prompt
 if [ -e etc/default.profile ]; then
@@ -81,6 +95,8 @@ satcommSetup()
         log "[E] Error decoding $satcommKey.  Ensure you have registered your cert with the admin"
         return 1
     fi
+
+    dos2unix $satcommKeyCfg
 
     . $satcommKeyCfg
     
