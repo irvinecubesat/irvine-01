@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Ensure satcomm.cfg exists in /data to allow the configuration to be
+# tweaked without reloading the firmware
+#
+
+start()
+{
+    SATCOMM_CFG_DIR=/data
+    SATCOMM_CFG=${SATCOMM_CFG_DIR}/satcomm.cfg
+
+  if [ -d "$SATCOMM_CFG_DIR" ]; then
+    mkdir -p "$SATCOMM_CFG_DIR"
+  fi
+  if [ ! -f "$SATCOMM_CFG" ]; then
+      logger -p6 -i installSatcommCfg "Installing $SATCOMM_CFG"
+      
+      if cp /etc/satcomm.cfg $SATCOMM_CFG; then
+          logger -p3 -i installSatcommCfg "Unable to install $SATCOMM_CFG"
+      else
+          logger -p6 -i installSatcommCfg "Restarting satcomm"
+          killall satcomm
+      fi
+  fi
+}
+
