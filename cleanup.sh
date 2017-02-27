@@ -62,7 +62,7 @@ $FAKEROOT chmod 755 root
 $FAKEROOT cat ~/.ssh/id_rsa.pub >root/.ssh/authorized_keys
 $FAKEROOT chmod -R 700 root/.ssh
 $FAKEROOT chmod 600 etc/shadow
-echo Built: `date` >> etc/issue
+echo "Built: `date` ${USER}@$(hostname) $(git describe) ($(git rev-parse --abbrev-ref HEAD)) " >> etc/issue
 echo >> etc/issue
 #
 # Ensure usr/local/etc/issue is updated otherwise we get the NAND error message
