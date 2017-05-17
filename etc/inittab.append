@@ -1,5 +1,5 @@
 null::respawn:/usr/bin/beacon
 null::respawn:/usr/bin/adcs-sensors
-#null::respawn:/usr/sbin/satcomm -c/data/satcomm.cfg
+#null::respawn:/usr/sbin/satcomm
 null::respawn:/usr/bin/cmdd -D/data/cmds -D/usr/local/cmds
-null::respawn:/usr/bin/ccardctl 
+null::respawn:/usr/bin/ccardctl -D /critical_state/ccardctl_initialDeploy
