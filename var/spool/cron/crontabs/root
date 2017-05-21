@@ -1,0 +1,3 @@
+*/5 * * * * /usr/sbin/logrotate /etc/logrotate.conf
+*/27 * * * * /usr/bin/cleanup_var_run.sh
+*/15 * * * * /usr/local/cmds/cmdSnap -n1 -rLo
