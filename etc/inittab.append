@@ -5,3 +5,5 @@ null::respawn:/usr/bin/cmdd -D/data/cmds -D/usr/local/cmds
 null::respawn:/usr/bin/ccardctl -D /critical_state/ccardctl_initialDeploy
 # Capture images at initial startup
 null::sysinit:/usr/local/cmds/cmdSnap -i
+# Kick off detumbling
+null::sysinit:/usr/local/cmds/cmdMtCtl -i
