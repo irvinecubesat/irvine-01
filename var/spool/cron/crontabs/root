@@ -2,3 +2,7 @@
 */27 * * * * /usr/bin/cleanup_var_run.sh
 */15 * * * * /usr/local/cmds/cmdSnap -n1 -rLo
 */11 * * * * /usr/local/cmds/cmdSnap -p
+*/20 * * * * /usr/local/cmds/cmdPowerMon -m check
+0 0 * * mon,thu /usr/local/cmds/cmdMtCtl -m001
+0 0 * * tue,fri /usr/local/cmds/cmdMtCtl -m010
+0 0 * * wed,sat /usr/local/cmds/cmdMtCtl -m100
